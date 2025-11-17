@@ -1,0 +1,46 @@
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 2rem; background: #f9f9f9; }
+  h1 { color: #333; }
+  .form-container { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 2rem; max-width: 600px; }
+  .form-group { margin-bottom: 1.5rem; }
+  .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333; }
+  .form-group input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; box-sizing: border-box; }
+  .form-group input:focus { outline: none; border-color: #007bff; }
+  .btn { padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; font-size: 1rem; }
+  .btn-primary { background: #007bff; color: white; }
+  .btn-primary:hover { background: #0056b3; }
+  .btn-secondary { background: #6c757d; color: white; margin-left: 0.5rem; }
+  .btn-secondary:hover { background: #545b62; }
+  .error-messages { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 1rem; border-radius: 5px; margin-bottom: 1.5rem; }
+  .error-messages ul { margin: 0; padding-left: 1.5rem; }
+</style>
+
+<h1>Novo Usuário</h1>
+
+<div class="form-container">
+  <% if @user.errors.any? %>
+    <div class="error-messages">
+      <strong>Erro ao criar usuário:</strong>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with model: @user, local: true do |f| %>
+    <div class="form-group">
+      <%= f.label :name, "Nome" %>
+      <%= f.text_field :name, placeholder: "Digite o nome completo" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :email, "E-mail" %>
+      <%= f.email_field :email, placeholder: "Digite o e-mail" %>
+    </div>
+
+    <%= f.submit "Criar Usuário", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", users_path, class: "btn btn-secondary" %>
+  <% end %>
+</div>

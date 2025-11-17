@@ -1,2 +1,98 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 2rem; background: #f9f9f9; }
+  h1 { color: #333; }
+  .consent-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .consent-info { max-width: 60%; }
+  .consent-info h3 { margin: 0 0 0.5rem 0; }
+  .consent-info .status { font-size: 0.9rem; color: #555; }
+  .consent-actions { display: flex; gap: 0.5rem; }
+  .btn { padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; }
+  .btn-grant { background: #28a745; color: white; }
+  .btn-revoke { background: #dc3545; color: white; }
+  .btn-info { background: #17a2b8; color: white; }
+  .btn-secondary { background: #6c757d; color: white; }
+  .btn:disabled { background: #ccc; cursor: not-allowed; }
+  .btn:hover:not(:disabled) { opacity: 0.9; }
+  .header-actions { display: flex; gap: 0.5rem; }
+  .status-granted { color: #28a745; }
+  .status-revoked { color: #dc3545; }
+  .status-undefined { color: #6c757d; }
+  .notice { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 1rem; border-radius: 5px; margin-bottom: 1rem; }
+  .alert { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 1rem; border-radius: 5px; margin-bottom: 1rem; }
+</style>
+
+<% if notice %>
+  <div class="notice"><%= notice %></div>
+<% end %>
+
+<% if alert %>
+  <div class="alert"><%= alert %></div>
+<% end %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+  <div>
+    <h1>Gerenciamento de Consentimentos</h1>
+    <p><b>Usuário:</b> <%= @user.name %> (<%= @user.email %>)</p>
+  </div>
+  <div class="header-actions">
+    <%= link_to "Ver Histórico", consents_history_path(@user.id), class: "btn btn-info" %>
+    <%= link_to "Voltar", users_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<hr>
+
+<% @purposes.each do |purpose| %>
+
+  <% consent = @consents_hash[purpose.id] %>
+
+  <div class="consent-card">
+    <div class="consent-info">
+      <h3><%= purpose.name %></h3>
+
+      <div class="status">
+        <strong>Status:</strong>
+        <% if consent&.granted? %>
+          <span class="status-granted">CONCEDIDO</span> (em: <%= consent.granted_at.strftime('%d/%m/%Y %H:%M') %>)
+        <% elsif consent&.revoked? %>
+          <span class="status-revoked">REVOGADO</span> (em: <%= consent.revoked_at.strftime('%d/%m/%Y %H:%M') %>)
+        <% else %>
+          <span class="status-undefined">NÃO DEFINIDO</span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="consent-actions">
+      <%= button_to "Conceder", 
+          consents_toggle_path, 
+          method: :post,
+          class: "btn btn-grant",
+          disabled: (consent && consent.granted?), 
+          params: { 
+            user_id: @user.id, 
+            purpose_id: purpose.id, 
+            status: 'granted' 
+          } %>
+
+      <%= button_to "Revogar", 
+          consents_toggle_path, 
+          method: :post,
+          class: "btn btn-revoke",
+          disabled: (!consent || !consent.granted?), 
+          params: { 
+            user_id: @user.id, 
+            purpose_id: purpose.id, 
+            status: 'revoked' 
+          } %>
+    </div>
+  </div>
+<% end %>

@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  get "consents/toggle"
-  get "users/show"
-  resources :users, only: [:show]
+  resources :users, only: [:index, :show, :new, :create]
   post 'consents/toggle', to: 'consents#toggle'
-  root to: redirect("/users/#{User.first.id}")
+  get 'consents/history/:user_id', to: 'consents#history', as: 'consents_history'
+  root 'users#index'
 end
