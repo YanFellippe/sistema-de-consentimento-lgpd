@@ -159,26 +159,16 @@ Redirect de volta para /users/:id com mensagem
 
 Se houvesse mais tempo, as seguintes funcionalidades seriam implementadas:
 
-### 1. **Testes Automatizados**
-- **RSpec**: Testes de unidade para models
-  - Validações (email único, presença de campos)
-  - Associações (has_many, belongs_to)
-  - Métodos customizados
-- **Testes de integração**: Simular fluxo completo do usuário
-  - Criar usuário → Conceder consentimento → Revogar → Verificar histórico
-- **Factory Bot**: Para criar fixtures de teste
-- **Shoulda Matchers**: Para simplificar testes de validação
-
-### 2. **Autenticação e Autorização**
+### 1. **Autenticação e Autorização**
 - **Devise**: Sistema de login/logout
 - **Cancancan**: Controle de permissões
   - Usuários só podem gerenciar seus próprios consentimentos
   - Administradores podem visualizar todos os usuários
 - **Sessões seguras**: CSRF protection, secure cookies
 
-### 3. **Auditoria Completa (PaperTrail)**
+### 2. **Auditoria Completa (PaperTrail)**
 - Tabela `versions` para rastrear TODAS as mudanças
-- Atualmente: apenas última data de concessão/revogação
+- Atualmente: apenas poucas datas de concessão/revogação
 - Ideal: histórico completo com:
   - Quem fez a mudança
   - Quando foi feita
@@ -186,7 +176,7 @@ Se houvesse mais tempo, as seguintes funcionalidades seriam implementadas:
   - Qual é o novo valor
   - IP de origem
 
-### 4. **API RESTful**
+### 3. **API RESTful**
 ```ruby
 # Endpoints propostos:
 GET    /api/v1/users/:user_id/consents
@@ -200,13 +190,13 @@ GET    /api/v1/consents/:id/history
 - Documentação com Swagger/OpenAPI
 - Rate limiting
 
-### 5. **Notificações**
+### 4. **Notificações**
 - Email ao usuário quando consentimento é alterado
 - Background jobs (Sidekiq) para envio assíncrono
 - Templates de email personalizados
 - Logs de envio
 
-### 6. **Dashboard Administrativo**
+### 5. **Dashboard Administrativo**
 - Estatísticas de consentimentos
 - Gráficos (Chart.js ou similar):
   - Taxa de concessão por finalidade
@@ -214,24 +204,12 @@ GET    /api/v1/consents/:id/history
   - Usuários mais ativos
 - Exportação de relatórios (CSV, PDF)
 
-### 7. **Internacionalização (i18n)**
+### 6. **Internacionalização (i18n)**
 - Suporte a múltiplos idiomas
 - Português, Inglês, Espanhol
 - Datas e horários localizados
 
-### 8. **Performance**
-- Cache de queries frequentes (Redis)
-- Eager loading para evitar N+1 queries
-- Paginação (Kaminari ou Pagy)
-- Índices no banco de dados
-
-### 9. **Segurança**
-- Brakeman: Análise estática de vulnerabilidades
-- Bundler Audit: Verificar gems com vulnerabilidades conhecidas
-- Rate limiting por IP
-- Logs de acesso e tentativas suspeitas
-
-### 10. **DevOps**
+### 7. **DevOps**
 - Docker/Docker Compose para ambiente de desenvolvimento
 - CI/CD (GitHub Actions)
 - Deploy automatizado (Heroku, AWS, ou Railway)
