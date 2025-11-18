@@ -1,22 +1,46 @@
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 2rem; background: #f9f9f9; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 1rem; background: #f9f9f9; }
   h1, h2 { color: #333; }
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.25rem; }
   .btn { padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; }
   .btn-secondary { background: #6c757d; color: white; }
   .btn:hover { opacity: 0.9; }
-  .history-container { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 2rem; margin-top: 2rem; }
-  .history-item { padding: 1.5rem; border-bottom: 1px solid #eee; }
+  .user-info { margin-bottom: 1rem; word-break: break-word; }
+  .history-container { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; margin-top: 1rem; }
+  .history-item { padding: 1rem; border-bottom: 1px solid #eee; }
   .history-item:last-child { border-bottom: none; }
-  .history-item h3 { margin: 0 0 0.5rem 0; }
+  .history-item h3 { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
   .history-item .status { font-size: 0.9rem; color: #555; margin-bottom: 0.5rem; }
   .status-granted { color: #28a745; font-weight: bold; }
   .status-revoked { color: #dc3545; font-weight: bold; }
   .history-item .dates { font-size: 0.85rem; color: #777; }
-  .empty-state { text-align: center; padding: 3rem; color: #999; }
+  .history-item .dates div { margin: 0.25rem 0; }
+  .empty-state { text-align: center; padding: 2rem 1rem; color: #999; }
+  
+  @media (max-width: 768px) {
+    body { margin: 0.5rem; }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.1rem; }
+    .btn { display: inline-block; width: auto; text-align: center; margin-bottom: 1rem; }
+    .history-container { padding: 1rem; }
+    .history-item { padding: 0.75rem; }
+  }
+  
+  @media (max-width: 480px) {
+    h1 { font-size: 1.25rem; }
+    h2 { font-size: 1rem; }
+    .history-item h3 { font-size: 1rem; }
+    .history-item .status { font-size: 0.85rem; }
+    .history-item .dates { font-size: 0.8rem; }
+    .user-info { font-size: 0.9rem; }
+  }
 </style>
 
 <h1>Histórico de Consentimentos</h1>
-<p><b>Usuário:</b> <%= @user.name %> (<%= @user.email %>)</p>
+<div class="user-info">
+  <p><b>Usuário:</b> <%= @user.name %> (<%= @user.email %>)</p>
+</div>
 
 <%= link_to "Voltar para Gerenciamento", user_path(@user), class: "btn btn-secondary" %>
 
